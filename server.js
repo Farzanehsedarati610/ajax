@@ -1,24 +1,27 @@
 const express = require("express");
-const cors = require("cors");
+const axios = require("axios");
+
+const API_KEY = process.env.OPENBANK_API_KEY;
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "*" }));
 
-app.post("/transfer", (req, res) => {
-  res.json({ success: true, message: "Funds transferred!" });
-});
+async function processTransaction(transactionData) {
+  const response = await axios.post("https://apisandbox.openbankproject.com/transactions", transactionData, {
+    headers: { Authorization: `Bearer ${API_KEY}` }
+  });
+  return response.data;
+}
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-app.post("/transfer", (req, res) => {
+app.post("/transfer", async (req, res) => {
   try {
-    if (!req.body.amount || req.body.amount <= 0) {
-      throw new Error("Invalid transfer amount");
-    }
-    res.json({ success: true, message: "Funds transferred!" });
+    const result = await processTransaction(req.body);
+    res.json(result);
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    res.status(500).json({ error: "Transaction failed", details: error.message });
   }
 });
+
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
