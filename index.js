@@ -1,15 +1,11 @@
 const express = require("express");
 const app = express();
-app.use(express.json()); // 🚨 Ensure JSON support!
+app.use(express.json());  // ✅ Enables JSON parsing
 
 app.post("/transfer", (req, res) => {
     res.json({ success: true, message: "Transaction received." });
 });
 
-const PORT = process.env.PORT || 80;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-const transferRoutes = require("./transfers");
-app.use("/transfer", transferRoutes);
-
+const PORT = process.env.PORT || 80;  // ✅ Ensure the correct port
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 
