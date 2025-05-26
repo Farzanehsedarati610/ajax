@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 to Bank Transfer Initiator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+            color: #555;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        button {
+            background-color: #28a745; /* Green for transfer action */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #e9e9e9;
+            white-space: pre-wrap; /* To preserve formatting of JSON */
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .warning {
+            color: orange;
+            font-weight: bold;
+        }
+        small {
+            color: #777;
+            display: block;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Initiate Transfer: From SHA-256 "Account" to Bank</h1>
+
+        <p>
+            This interface allows you to specify a source SHA-256 hash (acting as a unique "account")
+            from which funds will be transferred to a traditional bank routing and account number.
+        </p>
+        <p class="warning">
+            <strong>Security Warning:</strong> For a production system, directly collecting
+            sensitive bank details in a client-side form requires robust security measures
+            (e.g., PCI DSS compliance, tokenization services for card numbers, strict input validation).
+            The actual money movement and validation of the SHA-256 "account" must be handled
+            by a secure, trusted backend server.
+        </p>
+
+        <label for="sha256Select">Select Source SHA-256 Hash "Account":</label>
+        <select id="sha256Select">
+            <option value="">-- Select a SHA-256 Hash --</option>
+            <option value="65a6745f084e7af17e1715ae9302cc14820e331af610badd3d9805cb9cd3504e">Hash X</option>
+            <option value="ca4ba96c58580a9d2ddbc99d993cf0a703c366c85f608a8d9d6b3890">Hash A</option>
+            <option value="3842daf9315978e904e20579f52913aec3274e22b09c4fa9ddd2a2b7">Hash B</option>
+            <option value="a23b0d1d1e8a721623a1a85b64a353fface595030eb41ba33d8fe4a554ee59d5">Hash C</option>
+            <option value="dc5b25606dc0c977dec5aa13d61946b470066976aefcf390c40ffaff75d9a186">Hash D</option>
+            <option value="8470faf251f8c3c8672718cbd982f942ce649bb69714794eb8b1de934cb59d52">Hash E</option>
+            <option value="663e295cc4399e9a551571eebd7a4db0d6f3662c87eb18d0e0a2a4b67f07145c">Hash F</option>
+            <option value="3fc8241058ee913bfe277e4652abc04822b33aa939d6f65084aae02e917eeff1">Hash G</option>
+            <option value="d71d4b23cb2ec49e7b0ff31fd563b5ffdf4899dbecebd599711213ff37e52bd9">Hash H</option>
+            <option value="c6f44160cdd0479af696b81abdd1982d36e08263322e4c5b07bf27b5623b29d5">Hash I</option>
+            <option value="26efc86c0269a129bd183480f947c7424a48f9523156a8a70d3dfe5ed7103aab">Hash J</option>
+            <option value="7c7228137410dc76b4925dfcc729fdc92cfd94a026022111c1a502d6240580fb">Hash K</option>
+            <option value="029ff25d832b97b9d55fc93078dac6552a61be7a">Hash L (Shorter - might be invalid SHA-256 length)</option>
+            <option value="94e02b38274bfc81e66ea2e90f57f62faa2b5ae13e15bf89a3fc113881871e4e">Hash M</option>
+            <option value="3e153176e6fcf704b9ebdb6cce4818ea6f276bcb42d4db72d6207df3434f3344">Hash N</option>
+            <option value="b818d555523674878848476ee8ffc99cff1c95529e3cc450511672922a4a5736">Hash O</option>
+            <option value="7f1c56bf38070c1637e6b0ce91fe5ab1ab8474be6dab8be2a3bf8eadb771e062">Hash P</option>
+            <option value="c1e586cecb4f643611e882c6b3638f2d51a7b6ccd4f647c305351fccde94b9b4">Hash Q</option>
+            <option value="20f586474bf292d420bb8c5139bfb8224cda900280ffa2c95b45a33eb98e96cd">Hash R</option>
+        </select>
+        <small>Select one of your predefined SHA-256 identifiers.</small>
+
+        <label for="transferAmount">Amount to Transfer:</label>
+        <input type="text" id="transferAmount" placeholder="e.g., 100.50">
+        <small>Enter a numeric value for the transfer amount.</small>
+
+        <h2>Destination Bank Details:</h2>
+
+        <label for="routingNumber">Recipient's Routing Number:</label>
+        <input type="text" id="routingNumber" placeholder="e.g., 283977688" value="283977688" minlength="9" maxlength="9">
+        <small>Typically 9 digits for US banks. Pre-filled based on your provided data.</small>
+
+        <label for="accountNumber">Recipient's Account Number:</label>
+        <input type="text" id="accountNumber" placeholder="e.g., 0000339715" value="0000339715">
+        <small>Variable length, typically 5-17 digits. Pre-filled based on your provided data.</small>
+
+        <button id="initiateTransferButton">Initiate Transfer</button>
+
+        <h2>Server Response:</h2>
+        <div id="response">
+            Waiting for transfer initiation...
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('initiateTransferButton').addEventListener('click', async () => {
+            const sha256Select = document.getElementById('sha256Select');
+            const sourceSha256 = sha256Select.value.trim();
+            const transferAmount = document.getElementById('transferAmount').value.trim();
+            const routingNumber = document.getElementById('routingNumber').value.trim();
+            const accountNumber = document.getElementById('accountNumber').value.trim();
+            const responseDiv = document.getElementById('response');
+
+            // --- Basic Client-Side Validation ---
+            if (!sourceSha256) {
+                responseDiv.innerHTML = '<span class="error">Please select a source SHA-256 hash.</span>';
+                return;
+            }
+            // Basic SHA-256 format check (if it's truly a full SHA-256)
+            if (sourceSha256.length !== 64 || !/^[0-9a-fA-F]{64}$/.test(sourceSha256)) {
+                 if (sourceSha256.length === 40 && /^[0-9a-fA-F]{40}$/.test(sourceSha256)) {
+                    // This looks like SHA-1, which you had for 'l'. You might need to handle this differently
+                    // if your backend expects only SHA-256 (64 chars).
+                    responseDiv.innerHTML = '<span class="warning">Warning: Selected hash is 40 characters (looks like SHA-1). Proceeding, but backend might reject if it expects SHA-256.</span>';
+                 } else {
+                    responseDiv.innerHTML = '<span class="error">Selected hash is not a valid 64-character SHA-256 format.</span>';
+                    return;
+                 }
+            }
+
+
+            if (!transferAmount || isNaN(parseFloat(transferAmount)) || parseFloat(transferAmount) <= 0) {
+                responseDiv.innerHTML = '<span class="error">Please enter a valid positive numeric amount to transfer.</span>';
+                return;
+            }
+
+            if (!routingNumber || routingNumber.length !== 9 || !/^\d{9}$/.test(routingNumber)) {
+                responseDiv.innerHTML = '<span class="error">Please enter a valid 9-digit routing number.</span>';
+                return;
+            }
+
+            if (!accountNumber || accountNumber.length < 5 || !/^\d+$/.test(accountNumber)) {
+                responseDiv.innerHTML = '<span class="error">Please enter a valid account number (at least 5 digits).</span>';
+                return;
+            }
+
+            responseDiv.innerHTML = 'Preparing transfer request...';
+
+            // --- Data to Send via AJAX ---
+            const dataToSend = {
+                source_sha256_account: sourceSha256,
+                amount: parseFloat(transferAmount), // Ensure it's a number
+                destination_routing_number: routingNumber,
+                destination_account_number: accountNumber
+            };
+
+            // --- Where to Send the AJAX Request ---
+            // This is your backend server endpoint.
+            // Replace with the actual URL of your server-side application.
+            // If deployed on GitHub Pages, this must be an externally accessible URL.
+            const serverEndpoint = 'http://localhost:3000/api/transfer-funds'; // EXAMPLE: Replace with your deployed backend URL
+
+            try {
+                responseDiv.innerHTML = `Sending transfer request to server...`;
+                const response = await fetch(serverEndpoint, {
+                    method: 'POST', // Always use POST for sending sensitive data and initiating actions
+                    headers: {
+                        'Content-Type': 'application/json' // Tells the server we're sending JSON
+                    },
+                    body: JSON.stringify(dataToSend) // The data prepared above, converted to JSON string
+                });
+
+                if (!response.ok) {
+                    const errorJson = await response.json(); // Try to parse error as JSON
+                    throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorJson.message || response.statusText}`);
+                }
+
+                // Assuming the server responds with JSON for success/failure
+                const jsonResponse = await response.json();
+
+                responseDiv.innerHTML = `
+                    <span class="${jsonResponse.status === 'success' ? 'success' : 'error'}">Server Response:</span>
+                    <pre>${JSON.stringify(jsonResponse, null, 2)}</pre>
+                `;
+
+            } catch (error) {
+                console.error('Error during AJAX transfer request:', error);
+                responseDiv.innerHTML = `<span class="error">Transfer failed: ${error.message}. Check console for details.</span>`;
+            }
+        });
+    </script>
+
+</body>
+</html>
