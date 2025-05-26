@@ -3,7 +3,9 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 
 app.use(cors({
     origin: '*', // CHANGE THIS FOR PRODUCTION! Example: 'https://farzanehsedarati610.github.io'
